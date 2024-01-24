@@ -18,5 +18,5 @@ class ProductSerializer(serializers.ModelSerializer):
         method_name='calculate_tax')
 
     @staticmethod
-    def calculate_tax(self, product: Product):
+    def calculate_tax(product: Product):
         return product.unit_price * Decimal(1.1)
