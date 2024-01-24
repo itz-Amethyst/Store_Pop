@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'debug_toolbar' ,
     'djoser',
+    'drf_spectacular',
     #? Internal
     'playground',
     'store',
@@ -145,6 +146,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 AUTH_USER_MODEL = 'core.User'
@@ -159,4 +161,14 @@ DJOSER = {
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1)
+}
+
+# Swagger Doc schema
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    #? Permission
+    # 'SERVE_PERMISSIONS': ['rest_framework.permissions.IsAuthenticated'],
 }
