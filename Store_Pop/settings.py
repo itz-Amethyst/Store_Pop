@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'debug_toolbar' ,
     'djoser',
     'drf_spectacular',
+    'corsheaders',
     #? Internal
     'playground',
     'store',
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -61,6 +63,12 @@ INTERNAL_IPS = [
     # ...
     '127.0.0.1',
     # ...
+]
+
+#? CORS
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8000',
+    'http://localhost:4357'
 ]
 
 ROOT_URLCONF = 'Store_Pop.urls'
