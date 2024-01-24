@@ -12,7 +12,13 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework import status
 from .filters import ProductFilter
 from .models import Cart, CartItem, Collection, Customer, Order, OrderItem, Product, Review
-from .serializers import AddCartItemSerializer, CartItemSerializer, CartSerializer, CollectionSerializer, CreateOrderSerializer, CustomerSerializer, OrderSerializer, ProductSerializer, ReviewSerializer, UpdateCartItemSerializer, UpdateOrderSerializer
+from .serializers.collection import CollectionSerializer
+from .serializers.product import ProductSerializer
+from .serializers.customer import CustomerSerializer
+from .serializers.order import OrderSerializer, UpdateOrderSerializer, CreateOrderSerializer
+from .serializers.cart import CartSerializer
+from .serializers.review import ReviewSerializer
+from .serializers.cartItem import CartItemSerializer , AddCartItemSerializer , UpdateCartItemSerializer
 
 
 class ProductViewSet(ModelViewSet):
