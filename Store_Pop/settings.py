@@ -200,3 +200,13 @@ DEFAULT_FROM_EMAIL = 'from@milad.com'
 ADMINS = [
     ('milad', 'milad@gmail.com')
 ]
+
+# import redis
+#
+# r = redis.Redis(
+#   host='redis-11958.c290.ap-northeast-1-2.ec2.cloud.redislabs.com',
+#   port=11958,
+#   password='QucDkFJnj7avNcgjEPEwlG0FGWdqkOYr')
+
+#* CELERY
+CELERY_BROKER_URL = f"{env('CELERY_WORKER_PLATFORM')}{env('CELERY_WORKER_PLATFORM_PASSWORD')}{env('CELERY_WORKER_PLATFORM_URL')}"
