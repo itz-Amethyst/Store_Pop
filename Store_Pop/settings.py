@@ -4,6 +4,7 @@ import django.core.mail.backends.smtp
 import environ
 from pathlib import Path
 from datetime import timedelta
+from celery.schedules import crontab
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -210,3 +211,16 @@ ADMINS = [
 
 #* CELERY
 CELERY_BROKER_URL = f"{env('CELERY_WORKER_PLATFORM')}{env('CELERY_WORKER_PLATFORM_PASSWORD')}{env('CELERY_WORKER_PLATFORM_URL')}"
+
+# Schedule
+CELERY_BEAT_SCHEDULE = {
+    'notify_customers': {
+        'task': 'playground.tasks.main.notify_customers',
+        #! 'schedule': 5 * 60 # Minutes
+        'schedule': crontab(day_of_week = 1, hour = 7, minute = 30), # every monday at 7:30
+        #? 'schedule': crontab(minute = '*/15') # every 15 minutes
+
+        'args': ['Hello World'],
+        # 'kwargs': {"id": 1}
+    }
+}
