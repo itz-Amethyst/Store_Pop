@@ -1,6 +1,7 @@
 from django.core.mail import send_mail , mail_admins , BadHeaderError, EmailMessage
 from django.shortcuts import render
 from templated_mail.mail import BaseEmailMessage
+from .tasks.main import notify_customers
 
 
 def get_client_ip(request):
@@ -29,3 +30,8 @@ def say_hello(request):
         pass
 
     return render(request, 'hello.html', {'name': 'Test'})
+
+
+def test_view(request):
+    notify_customers.delay("hello")
+    return render(request, 'hello.html')
