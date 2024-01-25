@@ -187,7 +187,7 @@ SPECTACULAR_SETTINGS = {
 
 # SMTP
 # Email Sending
-#? Whene ever you wanted to change email sending method change after backends
+#? When ever you wanted to change email sending method change after backends
 # EMAIL_BACKEND = django.core.mail.backends.smtp.EmailBackend
 CURRENT_SITE = env("CURRENT_SITE")
 EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
