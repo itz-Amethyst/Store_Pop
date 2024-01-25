@@ -1,4 +1,6 @@
 import os
+
+import django.core.mail.backends.smtp
 import environ
 from pathlib import Path
 from datetime import timedelta
@@ -94,15 +96,12 @@ WSGI_APPLICATION = 'Store_Pop.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-DATABASE_NAME = env('POSTGRES_DATABASE_NAME')
-DATABASE_USERNAME = env('POSTGRES_USERNAME')
-DATABASE_PASSWORD = env('POSTGRES_PASSWORD')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': DATABASE_NAME,
-        'USER': DATABASE_USERNAME,
-        'PASSWORD': DATABASE_PASSWORD
+        'NAME': env('POSTGRES_DATABASE_NAME'),
+        'USER': env('POSTGRES_USERNAME'),
+        'PASSWORD': env('POSTGRES_PASSWORD')
     }
 }
 
@@ -184,3 +183,20 @@ SPECTACULAR_SETTINGS = {
     #? Permission
     # 'SERVE_PERMISSIONS': ['rest_framework.permissions.IsAuthenticated'],
 }
+
+# SMTP
+# Email Sending
+#? Whene ever you wanted to change email sending method change after backends
+# EMAIL_BACKEND = django.core.mail.backends.smtp.EmailBackend
+CURRENT_SITE = env("CURRENT_SITE")
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = '2525'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'from@milad.com'
+
+# For send_mail_admin
+ADMINS = [
+    ('milad', 'milad@gmail.com')
+]
