@@ -17,7 +17,7 @@ class Collection(models.Model):
     title = models.CharField(max_length=255)
     # on_delete = models.SET_NULL
     featured_product = models.ManyToManyField(
-        'Product', null=True, related_name='+', blank=True)
+        'Product', related_name='+', blank=True)
 
     def __str__(self) -> str:
         return self.title
@@ -77,7 +77,7 @@ class Customer(models.Model):
 
     @admin.display(ordering='user__first_name')
     def first_name(self):
-        return self.user.first_name
+       return self.user.first_name
 
     @admin.display(ordering='user__last_name')
     def last_name(self):
