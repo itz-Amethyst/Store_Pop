@@ -4,6 +4,8 @@ from django.core.validators import MinValueValidator, FileExtensionValidator
 from django.db import models
 from uuid import uuid4
 
+from django.utils.text import slugify
+
 from store.helpers.upload import product_image_upload_path
 from store.validators.validator import validate_file_size
 
@@ -42,6 +44,10 @@ class Product(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['title']

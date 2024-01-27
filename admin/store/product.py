@@ -16,8 +16,20 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ['unit_price']
     list_filter = ['collection', 'last_update', InventoryFilter]
     list_per_page = 10
+    # For optimizing query usage
     list_select_related = ['collection']
     search_fields = ['title']
+
+
+    # fieldsets = [
+    #     (
+    #         "Advanced options",
+    #         {
+    #             "classes": ['collapse'],
+    #             "fields": ["title"]
+    #         }
+    #     )
+    # ]
 
     def collection_title(self, product):
         return product.collection.title
