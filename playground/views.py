@@ -5,7 +5,7 @@ from django.shortcuts import render
 from templated_mail.mail import BaseEmailMessage
 from django.db.models import Q, F
 
-from store.models import Product
+from store.models import Product , OrderItem , Order
 from .tasks.main import notify_customers
 
 
@@ -69,3 +69,48 @@ def test_data_lookup_2(request):
     object_2 = Product.objects.filter(pk = F('collection__id'))
     data = serialize('json' , object)
     return JsonResponse(data = data , safe = False)
+
+def test_data_order(request):
+    object = Product.objects.order_by('unit_price', '-title')
+
+    # -unit_price, +title
+    object2 = Product.objects.order_by('unit_price', '-title').reverse()
+
+    object3 = Product.objects.order_by('title')[0]
+
+
+    # Will get the latest item from descending order of title
+    object4 = Product.objects.latest('title')
+
+    data = serialize('json' , object)
+    return JsonResponse(data = data , safe = False)
+
+
+def test_data_limiting(request):
+    # 1, 2, 3, 4
+    object = Product.objects.all()[:5]
+
+
+def test_data_values(request):
+    # Only get this fields from Product
+    object = Product.objects.values_list("title", "description", "collection__title")
+
+    # Will get all fields except description
+    object_2 = Product.objects.defer("description")
+
+    # Distinct remove duplicates
+    queryset = OrderItem.objects.values("product__id").distinct()
+
+    object_main = Product.objects.filter(id__in = queryset).order_by('title')
+
+    data = serialize('json', object_main)
+
+    return JsonResponse(data = data, safe = False)
+
+def test_data_optimizing(request):
+    object = Order.objects.select_related("customer").prefetch_related('items__product').order_by('-placed_at')[:5]
+
+    data = serialize('json' , object)
+
+    return JsonResponse(data = data , safe = False)
+
