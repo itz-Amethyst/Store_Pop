@@ -4,11 +4,11 @@ from store.models import Cart
 
 
 class CartSerializer(serializers.ModelSerializer):
-    id = serializers.UUIDField(read_only=True)
-    items = CartItemSerializer(many=True, read_only=True)
+    id = serializers.UUIDField(read_only = True)
+    items = CartItemSerializer(many = True, read_only = True)
     total_price = serializers.SerializerMethodField()
 
-    def get_total_price(self, cart):
+    def get_total_price( self, cart:Cart ):
         return sum([item.quantity * item.product.unit_price for item in cart.items.all()])
 
     class Meta:
