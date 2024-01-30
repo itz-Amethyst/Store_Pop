@@ -15,11 +15,11 @@ class OrderViewSet(ModelViewSet):
         return [IsAuthenticated()]
 
     def create(self, request, *args, **kwargs):
-        serializer = CreateOrderSerializer(
-            data=request.data,
-            context={'user_id': self.request.user.id})
-        serializer.is_valid(raise_exception=True)
+        serializer = CreateOrderSerializer(data = request.data, context = {'user_id': self.request.user.id})
+        serializer.is_valid(raise_exception = True)
         order = serializer.save()
+
+        # To fill the datas in return by passing the returned data in save serializer to basic to fill the entries
         serializer = OrderSerializer(order)
         return Response(serializer.data)
 
@@ -30,12 +30,13 @@ class OrderViewSet(ModelViewSet):
             return UpdateOrderSerializer
         return OrderSerializer
 
+    # def get_serializer_context(self):
+    #     return {'user_id': self.request.user.id}
+
     def get_queryset(self):
         user = self.request.user
 
         if user.is_staff:
             return Order.objects.all()
-
-        customer_id = Customer.objects.only(
-            'id').get(user_id=user.id)
-        return Order.objects.filter(customer_id=customer_id)
+        customer_id = Customer.objects.only('id').get(user_id = user.id)
+        return Order.objects.filter(customer_id = customer_id)
