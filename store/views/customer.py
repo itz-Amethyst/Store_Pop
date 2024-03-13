@@ -1,6 +1,6 @@
 from requests import Response
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAdminUser , IsAuthenticated
+from rest_framework.permissions import IsAdminUser , IsAuthenticated , AllowAny
 from rest_framework.viewsets import ModelViewSet
 
 from store.models import Customer
@@ -13,14 +13,16 @@ class CustomerViewSet(ModelViewSet):
     serializer_class = CustomerSerializer
     permission_classes = [IsAdminUser]
 
-    @action(detail=True, permission_classes=[ViewCustomerHistoryPermission])
-    def history(self, request, pk):
-        return Response('ok')
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        return [IsAuthenticated]
 
-    @action(detail=False, methods=['GET', 'PUT'], permission_classes=[IsAuthenticated])
+    # If detail is set to false it will only available in list getaway not f.e.g get_product_by_id route
+    @action(detail = False, methods = ['GET', 'PUT'], permission_classes=[IsAuthenticated])
     def me(self, request):
-        customer = Customer.objects.get(
-            user_id=request.user.id)
+        # To unpack tuple
+        customer = Customer.objects.get(user_id = request.user.id)
         if request.method == 'GET':
             serializer = CustomerSerializer(customer)
             return Response(serializer.data)
@@ -29,5 +31,4 @@ class CustomerViewSet(ModelViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data)
-
 

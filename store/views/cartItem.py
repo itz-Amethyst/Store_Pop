@@ -5,14 +5,13 @@ from store.serializers.cartItem import AddCartItemSerializer , CartItemSerialize
 
 
 class CartItemViewSet(ModelViewSet):
-    http_method_names = ['get', 'post', 'patch', 'delete']
+    http_method_names = ['post', 'patch', 'delete']
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return AddCartItemSerializer
         elif self.request.method == 'PATCH':
             return UpdateCartItemSerializer
-        return CartItemSerializer
 
     def get_serializer_context(self):
         return {'cart_id': self.kwargs['cart_pk']}
