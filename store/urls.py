@@ -7,6 +7,7 @@ from store.views.order import OrderViewSet
 from store.views.review import ReviewViewSet
 from store.views.cartItem import CartItemViewSet
 from store.views.productImage import ProductImageViewSet
+from store.views.cartItems_Bulk import CartItemBulkViewSet
 
 router = routers.DefaultRouter()
 router.register('products', ProductViewSet, basename='products')
@@ -23,6 +24,7 @@ products_router.register('images', ProductImageViewSet, basename = 'product-imag
 
 carts_router = routers.NestedDefaultRouter(router, 'carts', lookup='cart')
 carts_router.register('items', CartItemViewSet, basename='cart-items')
+carts_router.register('bulk', CartItemBulkViewSet, basename = 'cart-items-bulk')
 
 # URLConf
 urlpatterns = router.urls + products_router.urls + carts_router.urls
